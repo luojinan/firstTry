@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ToDo List</title>
+	<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+	<style>
+		.del{
+			text-decoration: line-through;
+		}
+		.test{
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<header>
+      <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+          <a href="http://localhost" target ="_blank " class="navbar-brand d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            <strong>ToDoList</strong>
+          </a>
+        </div>
+      </div>
+    </header>
+	
+	<div class="container">
+	<div class="row">
+		<div id="app" class="col-md-8 col-md-offset-2">
+			<br/>
+			<span><h1>你还有{{howMany}}件事没做呢</h1></span>
+			<br/>
+
+			<input class="col-md-10" type="text" @keyup.13="add" v-model="doWhat">
+			<ul class="list-group">
+				<li v-for="(item,index) in realArr" class="list-group-item">
+
+					<!--动态绑定属性，class名，{class名:判断语句} -->
+
+					<span :class="{del:item.isSelected}" @dblclick="write(item)" v-show="item!=remenber">
+						<input type="checkbox" v-model="item.isSelected">
+						{{item.do}}	
+					</span>
+					<input type="text" v-model="item.do" v-show="item==remenber" @keyup.13="cancel" @blur="cancel" v-focus="item==remenber">
+					<button @click="remove(index)" class="btn btn-danger pull-right">删除</button>
+				</li>
+			</ul>
+			<br/>
+			<input type="checkbox" v-model="checkAll">全选
+			<button @click="removeAll" class="btn btn-danger pull-right">删除</button>
+
+			<!--选项卡 切换内容-->
+			<div>
+				<ul class="nav">
+					<li><a href="#/all">全部任务</a></li><br/>
+					<li><a href="#/unfinsh">未完成任务</a></li><br>
+					<li><a href="#/finish">已完成任务</a></li><br>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+
+	<script src="./node_modules/vue/dist/vue.js"></script>
+	<script src="./node_modules/axios/dist/axios.js"></script>
+
+	<script src="javascript.js"></script>
+</body>
+</html>
